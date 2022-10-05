@@ -1,8 +1,11 @@
 import { Alert, Button, Grid, Paper, TextField } from "@mui/material";
+//import { Alert, Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
+import { Box } from '@mui/system';
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loggedUserData } from "../redux/action";
+//import jwt_decode from "jwt-decode";
 
 function Login({ type }) {
   const [open, setOpen] = React.useState(false);
@@ -24,24 +27,30 @@ function Login({ type }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { UserName, Password } = user;
+    console.log(UserName);
+    console.log(Password);
 
-    fetch("http://localhost:5028/User/Login", {
+    fetch("http://localhost:5028/api/Admin/User/Login", {
       method: "POST",
       crossDomain: true,
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        UserName,
-
-        Password,
+          "userName": UserName,
+          "password": Password
+          
       }),
-    })
+  })
       .then((res) => res.json())
       .then((data) => {
         console.log(data,"data")
+
+        // const user =  jwt_decode(data);
+        //  console.log(user.role);
+
         // setMsg(data?.msg);
         // setOpen(true);
 
@@ -53,7 +62,7 @@ function Login({ type }) {
         // }
       });
   };
-  console.log(msg);
+  //console.log(msg);
   return (
     <Paper
       sx={{
